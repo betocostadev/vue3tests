@@ -1,35 +1,17 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import { computed, onMounted, reactive, ref } from 'vue'
-import fetchCount from './fetchCount'
+import { reactive } from 'vue'
+import Counter from './components/Counter.vue'
 
 interface AppInfo {
   name: string
   slogan: string
 }
 
-// We could start count with 0 if the count was locally. But if we would get it from an API, it could be null
-// so we will start as null and use typescript
-const count = ref<number | null>(null)
-
 const appInfo: AppInfo = reactive({
   name: 'Counter',
   slogan: 'an app you can count on',
-})
-
-const addCount = (num: number) => {
-  if (count.value !== null) {
-    count.value += num
-  }
-}
-
-const cb = (initialCount: number) => {
-  count.value = initialCount
-}
-
-onMounted(() => {
-  fetchCount(cb)
 })
 
 // const nextCount = computed(() => {
@@ -52,10 +34,7 @@ onMounted(() => {
     <h1>{{ appInfo.name }}</h1>
     <h2>{{ appInfo.slogan }}</h2>
   </div>
-  <p>{{ count }}</p>
-  <p>
-    <button @click="addCount(1)">Add</button>
-  </p>
+  <Counter :limit="10" :alert-message-on-limit="'There is a limit'" />
 </template>
 
 <style>
